@@ -475,10 +475,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> testDeviceIds = Arrays.asList("0AB9848A1103A259760E9F759AFD69B7");
-        RequestConfiguration configuration =
-                new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
-        MobileAds.setRequestConfiguration(configuration);
+//        List<String> testDeviceIds = Arrays.asList("0AB9848A1103A259760E9F759AFD69B7");
+//        RequestConfiguration configuration =
+//                new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
+//        MobileAds.setRequestConfiguration(configuration);
 
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(
@@ -500,12 +500,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        MobileAds.openAdInspector(this, new OnAdInspectorClosedListener() {
-            public void onAdInspectorClosed(@Nullable AdInspectorError error) {
-                // Error will be non-null if ad inspector closed due to an error.
-                Log.d(TAG,"onAdInspectorClosed");
-            }
-        });
+//        MobileAds.openAdInspector(this, new OnAdInspectorClosedListener() {
+//            public void onAdInspectorClosed(@Nullable AdInspectorError error) {
+//                // Error will be non-null if ad inspector closed due to an error.
+//                Log.d(TAG,"onAdInspectorClosed");
+//            }
+//        });
     }
 
     @Override
