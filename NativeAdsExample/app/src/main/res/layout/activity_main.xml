@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.google.example.gms.nativeadsexample.sun.way2sms.hyd.com.MainActivity">
+    tools:context="com.google.example.gms.nativeadsexample.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

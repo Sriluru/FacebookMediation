@@ -1,4 +1,4 @@
-package sun.way2sms.hyd.com;
+package com.google.example.gms.nativeadsexample;
 
 import android.app.Activity;
 import android.content.Context;

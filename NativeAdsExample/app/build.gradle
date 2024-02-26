@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'sun.way2sms.hyd.com'
+    namespace 'com.google.example.gms.nativeadsexample'
     compileSdkVersion 34
     defaultConfig {
-        applicationId "sun.way2sms.hyd.com"
+        applicationId "com.google.example.gms.nativeadsexample"
         minSdkVersion 19
         multiDexEnabled true
         targetSdkVersion 34
@@ -21,8 +21,8 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.gms:play-services-ads:22.6.0'
-    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
+    implementation 'com.google.android.gms:play-services-ads:22.3.0'
+    implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
 
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'
 }

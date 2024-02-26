@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sun.way2sms.hyd.com;
+package com.google.example.gms.nativeadsexample;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -31,13 +31,17 @@ import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.ads.mediation.facebook.FacebookMediationAdapter;
+import com.google.android.gms.ads.AdInspectorError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnAdInspectorClosedListener;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.VideoController;
 import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
@@ -49,9 +53,9 @@ import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdOptions;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.gms.ads.nativead.NativeCustomFormatAd;
-//import com.google.example.gms.nativeadsexample.R;
-import sun.way2sms.hyd.com.R;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -63,9 +67,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainActivity extends AppCompatActivity {
 
     private static final String AD_MANAGER_AD_UNIT_ID = "/1022441/Placementbid";
-        //"/6499/example/native";
+            //"/6499/example/native";
     private static final String SIMPLE_TEMPLATE_ID = "10104090";
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MyActivity";
 
     private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
     private GoogleMobileAdsConsentManager googleMobileAdsConsentManager;
@@ -341,8 +345,6 @@ public class MainActivity extends AppCompatActivity {
    * @param requestCustomTemplateAds indicates whether custom template ads should be requested
    */
   private void refreshAd(boolean requestNativeAds, boolean requestCustomTemplateAds) {
-      Log.d(TAG,"refreshAd " + requestNativeAds);
-      Log.d(TAG,"refreshAd " + requestCustomTemplateAds);
     if (!requestNativeAds && !requestCustomTemplateAds) {
       Toast.makeText(
               this, "At least one ad format must be checked to request an ad.", Toast.LENGTH_SHORT)
@@ -353,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
         refresh.setEnabled(false);
 
         AdLoader.Builder builder = new AdLoader.Builder(this, AD_MANAGER_AD_UNIT_ID);
+        Log.d(TAG , "create ad loader builder" + AD_MANAGER_AD_UNIT_ID);
 
     if (requestNativeAds) {
       builder.forNativeAd(
@@ -369,23 +372,13 @@ public class MainActivity extends AppCompatActivity {
                 nativeAd.destroy();
                 return;
               }
+              Log.d(TAG, "onNativeAdLoaded");
               // You must call destroy on old ads when you are done with them,
               // otherwise you will have a memory leak.
               if (MainActivity.this.nativeAd != null) {
                 MainActivity.this.nativeAd.destroy();
               }
               MainActivity.this.nativeAd = nativeAd;
-
-                Bundle extras = nativeAd.getExtras();
-                if (extras.containsKey(FacebookMediationAdapter.KEY_ID)) {
-                    String keyID = extras.getString(FacebookMediationAdapter.KEY_ID);
-                    Log.d(TAG,"keyID : " + keyID);
-                }
-                if (extras.containsKey(FacebookMediationAdapter.KEY_SOCIAL_CONTEXT_ASSET)) {
-                    String socialContext = extras.getString(FacebookMediationAdapter.KEY_SOCIAL_CONTEXT_ASSET);
-                    Log.d(TAG,"socialContext : " + socialContext);
-                }
-
               FrameLayout frameLayout = findViewById(R.id.fl_adplaceholder);
               NativeAdView adView =
                   (NativeAdView)
@@ -413,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                 ad.destroy();
                 return;
               }
+                Log.d(TAG, "onCustomFormatAdLoaded");
               // You must call destroy on old ads when you are done with them,
               // otherwise you will have a memory leak.
               if (nativeCustomFormatAd != null) {
@@ -454,6 +448,7 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onAdFailedToLoad(LoadAdError loadAdError) {
                     refresh.setEnabled(true);
+                      Log.d(TAG, "onAdFailedToLoad");
                     String error =
                         String.format(
                             Locale.getDefault(),
@@ -480,33 +475,35 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Initialize the Mobile Ads SDK.
-//        MobileAds.initialize(
-//            this,
-//            new OnInitializationCompleteListener() {
-//                @Override
-//                public void onInitializationComplete(InitializationStatus initializationStatus) {
-//                    // Load an ad.
-//                    refreshAd(
-//                      requestNativeAds.isChecked(),
-//                      requestCustomTemplateAds.isChecked());
-//                }
-//            });
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
-                for (String adapterClass : statusMap.keySet()) {
-                    AdapterStatus status = statusMap.get(adapterClass);
-                    Log.d(TAG, String.format(
-                            "Adapter name: %s, Description: %s, Latency: %d",
-                            adapterClass, status.getDescription(), status.getLatency()));
-                }
+        List<String> testDeviceIds = Arrays.asList("0AB9848A1103A259760E9F759AFD69B7");
+        RequestConfiguration configuration =
+                new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
+        MobileAds.setRequestConfiguration(configuration);
 
-                // Load an ad.
-                refreshAd(
-                        requestNativeAds.isChecked(),
-                        requestCustomTemplateAds.isChecked());
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(
+            this,
+            new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                    Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
+                    for (String adapterClass : statusMap.keySet()) {
+                        AdapterStatus status = statusMap.get(adapterClass);
+                        Log.d(TAG, String.format(
+                                "Adapter name: %s, Description: %s, Latency: %d",
+                                adapterClass, status.getDescription(), status.getLatency()));
+                    }
+                    // Load an ad.
+                    refreshAd(
+                      requestNativeAds.isChecked(),
+                      requestCustomTemplateAds.isChecked());
+                }
+            });
+
+        MobileAds.openAdInspector(this, new OnAdInspectorClosedListener() {
+            public void onAdInspectorClosed(@Nullable AdInspectorError error) {
+                // Error will be non-null if ad inspector closed due to an error.
+                Log.d(TAG,"onAdInspectorClosed");
             }
         });
     }
