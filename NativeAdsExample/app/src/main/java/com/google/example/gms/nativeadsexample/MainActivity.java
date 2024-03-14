@@ -17,6 +17,7 @@
 package com.google.example.gms.nativeadsexample;
 
 import android.annotation.SuppressLint;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -456,18 +457,13 @@ public class MainActivity extends AppCompatActivity {
                             loadAdError.getDomain(),
                             loadAdError.getCode(),
                             loadAdError.getMessage());
-                    Toast.makeText(
-                            MainActivity.this,
-                            "Failed to load native ad: " + error,
-                            Toast.LENGTH_SHORT)
-                        .show();
+                    Log.v(TAG, "Failed to load native ad: " + error);
                   }
                 })
             .build();
 
     adLoader.loadAd(new AdManagerAdRequest.Builder().build());
-
-        videoStatus.setText("");
+           videoStatus.setText("");
     }
 
     private void initializeMobileAdsSdk() {
@@ -493,19 +489,22 @@ public class MainActivity extends AppCompatActivity {
                                 "Adapter name: %s, Description: %s, Latency: %d",
                                 adapterClass, status.getDescription(), status.getLatency()));
                     }
+                    MobileAds.openAdInspector(MainActivity.this,adInspectorError -> {
+
+                    });
                     // Load an ad.
                     refreshAd(
                       requestNativeAds.isChecked(),
                       requestCustomTemplateAds.isChecked());
+
+
                 }
             });
 
-//        MobileAds.openAdInspector(this, new OnAdInspectorClosedListener() {
-//            public void onAdInspectorClosed(@Nullable AdInspectorError error) {
-//                // Error will be non-null if ad inspector closed due to an error.
-//                Log.d(TAG,"onAdInspectorClosed");
-//            }
-//        });
+        MobileAds.setRequestConfiguration(
+                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("52797B51427B2D084226F9FBD77A7132","3719E91561377D8552F09EB8E52AA3E6")).build());
+
+
     }
 
     @Override
