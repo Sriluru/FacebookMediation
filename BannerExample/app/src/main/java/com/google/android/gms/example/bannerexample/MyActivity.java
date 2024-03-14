@@ -26,22 +26,34 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.ads.AdInspectorError;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnAdInspectorClosedListener;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Main Activity. Inflates main activity xml and child fragments. */
 public class MyActivity extends AppCompatActivity {
 
   // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-  static final String AD_UNIT = "/30497360/adaptive_banner_test_iu/backfill";
+  static final String AD_UNIT = "/1022441/FB_Banner_Test";
+          //"/6499/example/banner";
+          //"/30497360/adaptive_banner_test_iu/backfill";
   private static final String TAG = "MyActivity";
   private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
   private final AtomicBoolean initialLayoutComplete = new AtomicBoolean(false);
@@ -165,10 +177,12 @@ public class MyActivity extends AppCompatActivity {
   }
 
   private void loadBanner() {
+    Log.d(TAG, "loadBanner");
     // Create a new ad view.
     adView = new AdManagerAdView(this);
     adView.setAdUnitId(AD_UNIT);
-    adView.setAdSize(getAdSize());
+    adView.setAdSizes(AdSize.BANNER);
+    //adView.setAdSize(getAdSize());
 
     // Replace ad container with new ad view.
     adContainerView.removeAllViews();
@@ -177,6 +191,46 @@ public class MyActivity extends AppCompatActivity {
     // Start loading the ad in the background.
     AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
     adView.loadAd(adRequest);
+
+    adView.setAdListener(new AdListener() {
+      @Override
+      public void onAdClicked() {
+        super.onAdClicked();
+      }
+
+      @Override
+      public void onAdClosed() {
+        super.onAdClosed();
+      }
+
+      @Override
+      public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+        Log.d(TAG, "onAdFailedToLoad");
+        super.onAdFailedToLoad(loadAdError);
+      }
+
+      @Override
+      public void onAdImpression() {
+        super.onAdImpression();
+      }
+
+      @Override
+      public void onAdLoaded() {
+        Log.d(TAG, "onAdLoaded");
+        super.onAdLoaded();
+        Log.d(TAG,"Banner adapter class name: " + adView.getResponseInfo().getMediationAdapterClassName());
+      }
+
+      @Override
+      public void onAdOpened() {
+        super.onAdOpened();
+      }
+
+      @Override
+      public void onAdSwipeGestureClicked() {
+        super.onAdSwipeGestureClicked();
+      }
+    });
   }
 
   private void initializeMobileAdsSdk() {
@@ -184,18 +238,42 @@ public class MyActivity extends AppCompatActivity {
       return;
     }
 
-    // Initialize the Mobile Ads SDK.
-    MobileAds.initialize(
-        this,
-        new OnInitializationCompleteListener() {
-          @Override
-          public void onInitializationComplete(InitializationStatus initializationStatus) {}
-        });
+//    // Initialize the Mobile Ads SDK.
+//    MobileAds.initialize(
+//        this,
+//        new OnInitializationCompleteListener() {
+//          @Override
+//          public void onInitializationComplete(InitializationStatus initializationStatus) {}
+//        });
+//
+//    // Load an ad.
+//    if (initialLayoutComplete.get()) {
+//      loadBanner();
+//    }
+    Log.d(TAG, "initializeMobileAdsSdk called");
+    MobileAds.initialize(this, new OnInitializationCompleteListener() {
+      @Override
+      public void onInitializationComplete(InitializationStatus initializationStatus) {
+        Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
+        for (String adapterClass : statusMap.keySet()) {
+          AdapterStatus status = statusMap.get(adapterClass);
+          Log.d(TAG, String.format(
+                  "Adapter name: %s, Description: %s, Latency: %d",
+                  adapterClass, status.getDescription(), status.getLatency()));
+        }
+        Log.d(TAG, "Start loading ads here...");
+        // Start loading ads here...
+        if (initialLayoutComplete.get()) {
+            loadBanner();
+        }
+      }
+    });
 
-    // Load an ad.
-    if (initialLayoutComplete.get()) {
-      loadBanner();
-    }
+    MobileAds.openAdInspector(this, new OnAdInspectorClosedListener() {
+      public void onAdInspectorClosed(@Nullable AdInspectorError error) {
+        // Error will be non-null if ad inspector closed due to an error.
+      }
+    });
   }
 
   private AdSize getAdSize() {

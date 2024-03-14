@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/menu_action_menu.xml.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/menu/action_menu.xml"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/layout_activity_my.xml.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/layout/activity_my.xml"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/menu_popup_menu.xml.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/menu/popup_menu.xml"
+    },
+    {
+        "merged": "com.google.android.gms.example.bannerexample.app-merged_res-15:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.google.android.gms.example.bannerexample.app-main-17:/mipmap-xxhdpi/ic_launcher.png"
+    }
+]
