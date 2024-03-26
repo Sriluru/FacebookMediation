@@ -36,6 +36,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.ads.AdSettings;
 import com.google.android.gms.ads.AdInspectorError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -67,7 +68,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
 
-    private static final String AD_MANAGER_AD_UNIT_ID = "/1022441/Placementbid";
+    private static final String AD_MANAGER_AD_UNIT_ID = "/1022441/FBMediationGAM";
             //"/6499/example/native";
     private static final String SIMPLE_TEMPLATE_ID = "10104090";
     private static final String TAG = "MyActivity";
@@ -500,9 +501,12 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
+        AdSettings.addTestDevices(Arrays.asList("ec8cdf05-4bfa-4086-9ade-9fc7253723c0",
+                "8713594e-38ce-4e9e-a879-24d271e95258","bb7491e9-d233-47bf-9e95-eeda961da32c"));
         MobileAds.setRequestConfiguration(
-                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("52797B51427B2D084226F9FBD77A7132","3719E91561377D8552F09EB8E52AA3E6")).build());
+                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("52797B51427B2D084226F9FBD77A7132","3719E91561377D8552F09EB8E52AA3E6","381554D94525B6053059573A7AD79D4E","C03A1159390CA698B057317299FB28AC","BADC9F69AFEB06E7D9D509B705698A10","9586B3903212C89DF1F11EE145F30879",
+                        "685CEF47542A76208EF7F3751217252C","56DDA57FC57CD69EF649697976B8E4D5","81641EB66B307CCB3D4F08AEDDC4453D"
+                        )).build());
 
 
     }
